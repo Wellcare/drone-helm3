@@ -84,6 +84,16 @@ func WithAtomic(atomic bool) HelmOption {
 	}
 }
 
+func WithReuseValues(reuse bool) HelmOption {
+	return func(c *HelmCmd) error {
+		if reuse {
+			c.Args = append(c.Args, "--reuse-values")
+		}
+		return nil
+	}
+}
+
+
 func WithWait(wait bool) HelmOption {
 	return func(c *HelmCmd) error {
 		if wait {

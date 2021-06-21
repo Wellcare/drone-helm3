@@ -42,6 +42,7 @@ type (
 		Cleanup   bool `envconfig:"CLEANUP_ON_FAIL" default:"false"` // helm cleanup option
 		DryRun    bool `envconfig:"DRY_RUN" default:"false"`         // helm dryrun option
 		HelmDebug bool `envconfig:"HELM_DEBUG" default:"true"`       // helm debug option
+		ReuseValues bool `envconfig:"REUSE_VALUES" default:"true"`
 
 		HelmRepos          []string `envconfig:"HELM_REPOS"`                          // additonal helm repos
 		BuildDependencies  bool     `envconfig:"BUILD_DEPENDENCIES" default:"true"`   // helm dependency build option
@@ -171,6 +172,7 @@ func main() {
 		helm.WithCleanupOnFail(cfg.Cleanup),
 		helm.WithDryRun(cfg.DryRun),
 		helm.WithDebug(cfg.HelmDebug),
+		helm.WithReuseValues(cfg.ReuseValues),
 
 		helm.WithHelmRepos(cfg.HelmRepos),
 		helm.WithBuildDependencies(cfg.BuildDependencies, cfg.Chart),
