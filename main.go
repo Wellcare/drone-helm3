@@ -43,6 +43,7 @@ type (
 		DryRun    bool `envconfig:"DRY_RUN" default:"false"`         // helm dryrun option
 		HelmDebug bool `envconfig:"HELM_DEBUG" default:"true"`       // helm debug option
 		ReuseValues bool `envconfig:"REUSE_VALUES" default:"true"`
+		Version string `envconfig:"VERSION" default:""`
 
 		HelmRepos          []string `envconfig:"HELM_REPOS"`                          // additonal helm repos
 		BuildDependencies  bool     `envconfig:"BUILD_DEPENDENCIES" default:"true"`   // helm dependency build option
@@ -173,6 +174,7 @@ func main() {
 		helm.WithDryRun(cfg.DryRun),
 		helm.WithDebug(cfg.HelmDebug),
 		helm.WithReuseValues(cfg.ReuseValues),
+		helm.WithVersions(cfg.Version),
 
 		helm.WithHelmRepos(cfg.HelmRepos),
 		helm.WithBuildDependencies(cfg.BuildDependencies, cfg.Chart),

@@ -94,6 +94,16 @@ func WithReuseValues(reuse bool) HelmOption {
 }
 
 
+func WithVersions(version string) HelmOption {
+	return func(c *HelmCmd) error {
+		if version != "" {
+			c.Args = append(c.Args, "--version", version)
+		}
+		return nil
+	}
+}
+
+
 func WithWait(wait bool) HelmOption {
 	return func(c *HelmCmd) error {
 		if wait {
