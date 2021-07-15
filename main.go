@@ -33,17 +33,18 @@ type (
 		Mode      string `envconfig:"MODE" default:"installupgrade"` // changes helm operation mode
 		Chart     string `envconfig:"CHART" required:"true"`         // the helm chart to be deployed
 		Release   string `envconfig:"RELEASE" required:"true"`       // helm release name
-		Namespace string `envconfig:"NAMESPACE" required:"true"`     // kubernets and helm namespace
+		Namespace string `envconfig:"NAMESPACE" required:"true"`     // kubernetes and helm namespace
+		Tag       string `envconfig:"TAG_IMAGE" required:"true"`     // tag release images
 
-		Lint      bool `envconfig:"LINT" default:"true"`             // helm lint option
-		Atomic    bool `envconfig:"ATOMIC" default:"true"`           // helm atomic option
-		Wait      bool `envconfig:"WAIT" default:"true"`             // helm wait option
-		Force     bool `envconfig:"FORCE" default:"false"`           // helm force option
-		Cleanup   bool `envconfig:"CLEANUP_ON_FAIL" default:"false"` // helm cleanup option
-		DryRun    bool `envconfig:"DRY_RUN" default:"false"`         // helm dryrun option
-		HelmDebug bool `envconfig:"HELM_DEBUG" default:"true"`       // helm debug option
-		ReuseValues bool `envconfig:"REUSE_VALUES" default:"true"`
-		Version string `envconfig:"VERSION" default:""`
+		Lint        bool   `envconfig:"LINT" default:"true"`             // helm lint option
+		Atomic      bool   `envconfig:"ATOMIC" default:"true"`           // helm atomic option
+		Wait        bool   `envconfig:"WAIT" default:"true"`             // helm wait option
+		Force       bool   `envconfig:"FORCE" default:"false"`           // helm force option
+		Cleanup     bool   `envconfig:"CLEANUP_ON_FAIL" default:"false"` // helm cleanup option
+		DryRun      bool   `envconfig:"DRY_RUN" default:"false"`         // helm dryrun option
+		HelmDebug   bool   `envconfig:"HELM_DEBUG" default:"true"`       // helm debug option
+		ReuseValues bool   `envconfig:"REUSE_VALUES" default:"true"`
+		Version     string `envconfig:"VERSION" default:""`
 
 		HelmRepos          []string `envconfig:"HELM_REPOS"`                          // additonal helm repos
 		BuildDependencies  bool     `envconfig:"BUILD_DEPENDENCIES" default:"true"`   // helm dependency build option
@@ -183,6 +184,7 @@ func main() {
 		helm.WithTestRollback(cfg.Test, cfg.Release),
 
 		helm.WithValues(cfg.Values),
+		helm.WithTag(cfg.Tag),
 		helm.WithValuesString(cfg.ValuesString),
 		helm.WithValuesYaml(cfg.ValuesYaml),
 

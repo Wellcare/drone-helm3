@@ -2,6 +2,7 @@ package helm
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -64,6 +65,20 @@ func WithNamespace(namespace string) HelmOption {
 	}
 }
 
+func WithTag(tag string) HelmOption {
+	return func(c *HelmCmd) error {
+		splStr := strings.Split(tag, "-")
+		if len(splStr) < 2 {
+			return errors.New("Not found character '-' in string tag")
+		}
+		imageDep := strings.Join(splStr[1:], "-")
+		var key = fmt.Sprintf("%s.image.tag", imageDep)
+		value := fmt.Sprintf("%s=%s", key, tag)
+		c.Args = append(c.Args, "--set", value)
+		return nil
+	}
+}
+
 func WithLint(lint bool) HelmOption {
 	return func(c *HelmCmd) error {
 		if lint {
@@ -93,7 +108,6 @@ func WithReuseValues(reuse bool) HelmOption {
 	}
 }
 
-
 func WithVersions(version string) HelmOption {
 	return func(c *HelmCmd) error {
 		if version != "" {
@@ -102,7 +116,6 @@ func WithVersions(version string) HelmOption {
 		return nil
 	}
 }
-
 
 func WithWait(wait bool) HelmOption {
 	return func(c *HelmCmd) error {

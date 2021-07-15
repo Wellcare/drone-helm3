@@ -330,6 +330,7 @@ func TestHelmCmd(t *testing.T) {
 				WithChart("./helm/myapp"),
 				WithTest(true, "myapp-release"),
 				WithTestRollback(true, "myapp-release"),
+				WithTag("1.0.0-slowProcessWorker"),
 				WithRunner(mockRunner),
 			},
 			setup: func() {
